@@ -47,7 +47,7 @@
             "parent": {
                 "id": "advancedanimationutil",
                 "name": "Advanced Animation Util",
-                "description": "An entity-oriented API with a focus on completely redefining modded entity standards!",
+                "description": "A general-purpose animation-oriented library tailored towards your advanced animation needs!",
                 "icon": "assets/module/aau_parent_icon.png",
                 "badges": [ "library" ]
             },
