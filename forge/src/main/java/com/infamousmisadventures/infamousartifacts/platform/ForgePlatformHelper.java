@@ -1,6 +1,6 @@
-package com.infamousmisadventures.advancedanimationutil.platform;
+package com.infamousmisadventures.infamousartifacts.platform;
 
-import com.infamousmisadventures.advancedanimationutil.platform.services.IPlatformHelper;
+import com.infamousmisadventures.infamousartifacts.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 

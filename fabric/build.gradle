@@ -106,9 +106,9 @@ publishMods {
 
     curseforge {
         projectId = ""
-        projectSlug = "advancedanimationutil"
+        projectSlug = "infamous_artifacts"
         accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
-        announcementTitle = "New AdvancedAnimationUtil CurseForge Release"
+        announcementTitle = "New Infamous Artifacts CurseForge Release"
 
         getMinecraftVersions().add(minecraft_version)
     }
@@ -116,7 +116,7 @@ publishMods {
     modrinth {
         projectId = ""
         accessToken = providers.environmentVariable("MODRINTH_API_KEY")
-        announcementTitle = "New AdvancedAnimationUtil Modrinth Release"
+        announcementTitle = "New Infamous Artifacts Modrinth Release"
 
         getMinecraftVersions().add(minecraft_version)
     }

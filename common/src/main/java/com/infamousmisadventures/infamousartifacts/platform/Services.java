@@ -1,7 +1,7 @@
-package com.infamousmisadventures.advancedanimationutil.platform;
+package com.infamousmisadventures.infamousartifacts.platform;
 
-import com.infamousmisadventures.advancedanimationutil.AAUConstants;
-import com.infamousmisadventures.advancedanimationutil.platform.services.IPlatformHelper;
+import com.infamousmisadventures.infamousartifacts.Constants;
+import com.infamousmisadventures.infamousartifacts.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 
@@ -12,7 +12,7 @@ public class Services {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-        AAUConstants.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
+        Constants.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
 
         return loadedService;
     }

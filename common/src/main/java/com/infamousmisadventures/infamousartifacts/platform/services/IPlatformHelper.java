@@ -1,4 +1,4 @@
-package com.infamousmisadventures.advancedanimationutil.platform.services;
+package com.infamousmisadventures.infamousartifacts.platform.services;
 
 public interface IPlatformHelper {
 

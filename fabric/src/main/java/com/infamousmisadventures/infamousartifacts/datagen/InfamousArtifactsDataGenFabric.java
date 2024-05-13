@@ -1,13 +1,13 @@
-package com.infamousmisadventures.advancedanimationutil.datagen;
+package com.infamousmisadventures.infamousartifacts.datagen;
 
-import com.infamousmisadventures.advancedanimationutil.AAUConstants;
+import com.infamousmisadventures.infamousartifacts.Constants;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.JsonKeySortOrderCallback;
 import net.minecraft.core.RegistrySetBuilder;
 import org.jetbrains.annotations.Nullable;
 
-public class AdvancedAnimationUtilDataGenFabric implements DataGeneratorEntrypoint {
+public class InfamousArtifactsDataGenFabric implements DataGeneratorEntrypoint {
 
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
@@ -17,7 +17,7 @@ public class AdvancedAnimationUtilDataGenFabric implements DataGeneratorEntrypoi
     @Nullable
     @Override
     public String getEffectiveModId() {
-        return AAUConstants.MOD_ID;
+        return Constants.MOD_ID;
     }
 
     @Override

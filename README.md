@@ -1,3 +1,3 @@
-# Advanced Animation Util
+# Infamous Artifacts
 
-A general-purpose animation-oriented library tailored towards your advanced animation needs! Advanced Animation Util provides tools which aim to streamline the animating process using Mojang's newly-introduced keyframe system. Additionally, it boasts native support for [GeckoLib](https://www.curseforge.com/minecraft/mc-mods/geckolib) animations, allowing for a smooth transition and intercompatibility between entities animated in different formats without needing to re-do them from scratch. For more information on getting started and working with AAU, refer to the wiki tab.
+A system of artifacts, inspired by Minecraft Dungeons!

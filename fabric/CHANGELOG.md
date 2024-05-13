@@ -1,3 +1,3 @@
 # Changelog
-## Advanced Animation Util v1.0.0
+## Infamous Artifacts v1.0.0
 - Initial release

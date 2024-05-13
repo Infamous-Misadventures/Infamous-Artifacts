@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "advancedanimationutil",
+    "id": "infamous_artifacts",
     "version": "${mod_version}",
     "name": "${mod_name}",
     "description": "${mod_description}",
@@ -41,14 +41,14 @@
     "custom": {
         "modmenu": {
             "links": {
-                "advancedanimationutil.discord": "https://discord.gg/Dy4JAHZDZK"
+                "infamous_artifacts.discord": "https://discord.gg/Dy4JAHZDZK"
             },
             "badges": [ "library" ],
             "parent": {
-                "id": "advancedanimationutil",
-                "name": "Advanced Animation Util",
-                "description": "A general-purpose animation-oriented library tailored towards your advanced animation needs!",
-                "icon": "assets/module/aau_parent_icon.png",
+                "id": "infamous_artifacts",
+                "name": "Infamous Artifacts",
+                "description": "A system of artifacts, inspired by Minecraft Dungeons!",
+                "icon": "assets/module/infamous_artifacts_parent_icon.png",
                 "badges": [ "library" ]
             },
             "update_checker": true
