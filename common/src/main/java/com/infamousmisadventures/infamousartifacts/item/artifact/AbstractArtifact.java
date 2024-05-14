@@ -9,6 +9,8 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.UUID;
 
+import static com.infamousmisadventures.infamousartifacts.tag.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
+
 public abstract class AbstractArtifact extends Item { //implements IReloadableGear {
     protected final UUID SLOT0_UUID = UUID.fromString("7037798e-ac2c-4711-aa72-ba73589f1411");
     protected final UUID SLOT1_UUID = UUID.fromString("1906bae9-9f26-4194-bb8a-ef95b8cad134");
@@ -56,11 +58,11 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
         return Rarity.RARE;
     }
 
-    /*@Override
+    @Override
     public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
-        return ForgeRegistries.ITEMS.tags().getTag(ARTIFACT_REPAIR_ITEMS).contains(repair.getItem()) || super.isValidRepairItem(toRepair, repair);
-    }*/
-
+        return repair.is(ARTIFACT_REPAIR_ITEMS) || super.isValidRepairItem(toRepair, repair);
+    }
+`
     /*public InteractionResultHolder<ItemStack> activateArtifact(ArtifactUseContext artifactUseContext) {
         if (artifactUseContext.getPlayer() != null) {
             ItemStack itemStack = artifactUseContext.getItemStack();

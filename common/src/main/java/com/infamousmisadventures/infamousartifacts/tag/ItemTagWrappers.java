@@ -16,9 +16,9 @@ public class ItemTagWrappers {
         return TagKey.create(Registries.ITEM, new ResourceLocation(MOD_ID, name));
     }
 
-    /*private static TagKey<Item> tag(ResourceLocation resourceLocation) {
-        return TagKey.create(Registry.ITEM_REGISTRY, resourceLocation);
-    }*/
+    private static TagKey<Item> tag(ResourceLocation resourceLocation) {
+        return TagKey.create(Registries.ITEM, resourceLocation);
+    }
 
     public static void init() {
     }
