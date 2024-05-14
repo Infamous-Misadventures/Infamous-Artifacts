@@ -1,12 +1,8 @@
 AbstractArtifact
 
-How to access registries in ML again???
-
 ARTIFACT_COOLDOWN_MULTIPLIER attribute
 
 Artifact Events => Forge Only?
-
-Artifact Repair Items Tag
 
 Artifact Descriptions
 

@@ -1,14 +1,23 @@
 package com.infamousmisadventures.infamousartifacts.item.artifact;
 
 import com.google.common.collect.Multimap;
+import com.infamousmisadventures.infamousartifacts.mixins.UseOnContextAccessor;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 
 import java.util.UUID;
 
+import static com.infamousmisadventures.infamousartifacts.registry.AttributeInit.ARTIFACT_COOLDOWN_MULTIPLIER;
 import static com.infamousmisadventures.infamousartifacts.tag.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
 
 public abstract class AbstractArtifact extends Item { //implements IReloadableGear {
@@ -40,14 +49,14 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
         this.defaultModifiers = builder.build();
     }*/
 
-    /*public static void putArtifactOnCooldown(Player playerIn, Item item) {
-        int cooldownInTicks = item instanceof ArtifactItem ?
-                ((ArtifactItem) item).getCooldownInSeconds() * 20 : 0;
+    public static void putArtifactOnCooldown(Player playerIn, Item item) {
+        int cooldownInTicks = item instanceof AbstractArtifact ? 40 : 0;
+                //((AbstractArtifact) item).getCooldownInSeconds() * 20 : 0;
 
         AttributeInstance artifactCooldownMultiplierAttribute = playerIn.getAttribute(ARTIFACT_COOLDOWN_MULTIPLIER.get());
         double attributeModifier = artifactCooldownMultiplierAttribute != null ? artifactCooldownMultiplierAttribute.getValue() : 1.0D;
         playerIn.getCooldowns().addCooldown(item, Math.max(0, (int) (cooldownInTicks * attributeModifier)));
-    }*/
+    }
 
     /*public static void triggerSynergy(Player player, ItemStack stack) {
         ArtifactEvent.Activated event = new ArtifactEvent.Activated(player, stack);
@@ -62,22 +71,33 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
     public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
         return repair.is(ARTIFACT_REPAIR_ITEMS) || super.isValidRepairItem(toRepair, repair);
     }
-`
-    /*public InteractionResultHolder<ItemStack> activateArtifact(ArtifactUseContext artifactUseContext) {
+
+    @Override
+    public InteractionResult useOn(UseOnContext useOnContext) {
+        return useArtifactBase(new ArtifactUseContext(useOnContext.getLevel(), useOnContext.getPlayer(), useOnContext.getItemInHand(), ((UseOnContextAccessor) useOnContext).getHitResult()));
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+        //return useArtifactBase(new ArtifactUseContext(level, player, player.getItemInHand(interactionHand), interactionHand, player.pick()));
+        return new InteractionResultHolder<>(InteractionResult.PASS, player.getItemInHand(interactionHand));
+    }
+
+    private InteractionResult useArtifactBase(ArtifactUseContext artifactUseContext) {
         if (artifactUseContext.getPlayer() != null) {
             ItemStack itemStack = artifactUseContext.getItemStack();
             if (artifactUseContext.getPlayer().getCooldowns().isOnCooldown(itemStack.getItem())) {
-                return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemStack);
+                return InteractionResult.SUCCESS;
             }
         }
-        InteractionResultHolder<ItemStack> procResult = procArtifact(artifactUseContext);
-        if (procResult.getResult().consumesAction() && artifactUseContext.getPlayer() != null && !artifactUseContext.getLevel().isClientSide) {
+        InteractionResult useResult = useArtifact(artifactUseContext);
+        /*if (useResult.getResult().consumesAction() && artifactUseContext.getPlayer() != null && !artifactUseContext.getLevel().isClientSide) {
             triggerSynergy(artifactUseContext.getPlayer(), artifactUseContext.getItemStack());
-        }
-        return procResult;
+        }*/
+        return useResult;
     }
 
-    public abstract InteractionResultHolder<ItemStack> procArtifact(ArtifactUseContext iuc);*/
+    public abstract InteractionResult useArtifact(ArtifactUseContext context);
 
     /*public int getCooldownInSeconds() {
         return artifactGearConfig.getCooldown();
