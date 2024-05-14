@@ -1,7 +1,5 @@
 AbstractArtifact
 
-ARTIFACT_COOLDOWN_MULTIPLIER attribute
-
 Artifact Events => Forge Only?
 
 Artifact Descriptions

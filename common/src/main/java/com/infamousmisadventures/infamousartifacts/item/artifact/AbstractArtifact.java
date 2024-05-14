@@ -2,6 +2,7 @@ package com.infamousmisadventures.infamousartifacts.item.artifact;
 
 import com.google.common.collect.Multimap;
 import com.infamousmisadventures.infamousartifacts.mixins.UseOnContextAccessor;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,6 +15,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 import java.util.UUID;
 
@@ -49,13 +53,12 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
         this.defaultModifiers = builder.build();
     }*/
 
-    public static void putArtifactOnCooldown(Player playerIn, Item item) {
-        int cooldownInTicks = item instanceof AbstractArtifact ? 40 : 0;
-                //((AbstractArtifact) item).getCooldownInSeconds() * 20 : 0;
+    public void putArtifactOnCooldown(Player playerIn) {
+        int cooldownInTicks = getCooldownInSeconds() * 20;
 
         AttributeInstance artifactCooldownMultiplierAttribute = playerIn.getAttribute(ARTIFACT_COOLDOWN_MULTIPLIER.get());
         double attributeModifier = artifactCooldownMultiplierAttribute != null ? artifactCooldownMultiplierAttribute.getValue() : 1.0D;
-        playerIn.getCooldowns().addCooldown(item, Math.max(0, (int) (cooldownInTicks * attributeModifier)));
+        playerIn.getCooldowns().addCooldown(this, Math.max(0, (int) (cooldownInTicks * attributeModifier)));
     }
 
     /*public static void triggerSynergy(Player player, ItemStack stack) {
@@ -79,8 +82,18 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        //return useArtifactBase(new ArtifactUseContext(level, player, player.getItemInHand(interactionHand), interactionHand, player.pick()));
-        return new InteractionResultHolder<>(InteractionResult.PASS, player.getItemInHand(interactionHand));
+        HitResult hitResult = player.pick(30D, 1.0F, false);
+        BlockHitResult blockHitResult = null;
+        if (hitResult == null || hitResult.getType() == HitResult.Type.MISS) {
+            blockHitResult = new BlockHitResult(player.position(), Direction.UP, player.blockPosition(), false);
+        } else if (hitResult.getType() == HitResult.Type.BLOCK) {
+            blockHitResult = (BlockHitResult) hitResult;
+        } else if (hitResult.getType() == HitResult.Type.ENTITY) {
+            EntityHitResult entityHitResult = (EntityHitResult) hitResult;
+            blockHitResult = new BlockHitResult(entityHitResult.getEntity().position(), Direction.UP, entityHitResult.getEntity().blockPosition(), false);
+        }
+        InteractionResult interactionResult = useArtifactBase(new ArtifactUseContext(level, player, player.getItemInHand(interactionHand), blockHitResult));
+        return new InteractionResultHolder<>(interactionResult, interactionResult == InteractionResult.SUCCESS ? player.getItemInHand(interactionHand) : ItemStack.EMPTY);
     }
 
     private InteractionResult useArtifactBase(ArtifactUseContext artifactUseContext) {
@@ -99,13 +112,13 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
 
     public abstract InteractionResult useArtifact(ArtifactUseContext context);
 
-    /*public int getCooldownInSeconds() {
-        return artifactGearConfig.getCooldown();
+    public int getCooldownInSeconds() {
+        return 2; //artifactGearConfig.getCooldown();
     }
 
-    public int getDurationInSeconds() {
-        return artifactGearConfig.getDuration();
-    }*/
+//    public int getDurationInSeconds() {
+//        return artifactGearConfig.getDuration();
+//    }
 
     /*public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(int slotIndex) {
         return getAttributeModifiersForSlot(getUUIDForSlot(slotIndex));
