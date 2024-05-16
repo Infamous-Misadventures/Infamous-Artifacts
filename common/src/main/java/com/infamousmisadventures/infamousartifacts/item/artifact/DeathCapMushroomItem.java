@@ -25,15 +25,4 @@ public class DeathCapMushroomItem extends AbstractArtifact {
         putArtifactOnCooldown(playerIn);
         return InteractionResult.SUCCESS;
     }
-
-
-    @Override
-    public int getCooldownInSeconds() {
-        return 2;
-    }
-
-//    @Override
-//    public int getDurationInSeconds() {
-//        return 9;
-//    }
 }

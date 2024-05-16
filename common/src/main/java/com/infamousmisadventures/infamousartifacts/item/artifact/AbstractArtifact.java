@@ -1,6 +1,9 @@
 package com.infamousmisadventures.infamousartifacts.item.artifact;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.ArtifactGearConfig;
+import com.infamousmisadventures.infamousartifacts.mixins.ItemAccessor;
 import com.infamousmisadventures.infamousartifacts.mixins.UseOnContextAccessor;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -19,10 +22,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.infamousmisadventures.infamousartifacts.registry.AttributeInit.ARTIFACT_COOLDOWN_MULTIPLIER;
 import static com.infamousmisadventures.infamousartifacts.tag.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
+import static java.util.UUID.randomUUID;
 
 public abstract class AbstractArtifact extends Item { //implements IReloadableGear {
     protected final UUID SLOT0_UUID = UUID.fromString("7037798e-ac2c-4711-aa72-ba73589f1411");
@@ -31,27 +36,28 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
 
     private Multimap<Attribute, AttributeModifier> defaultModifiers;
     protected boolean procOnItemUse = false;
-    //private ArtifactGearConfig artifactGearConfig;
+    private ArtifactGearConfig artifactGearConfig;
 
     public AbstractArtifact(Properties properties) {
         super(properties.defaultDurability(64));
-        //reload();
+        reload();
     }
 
     //@Override
-    /*public void reload() {
-        artifactGearConfig = ArtifactGearConfigRegistry.getConfig(ForgeRegistries.ITEMS.getKey(this));
+    public void reload() {
+        //artifactGearConfig = ArtifactGearConfigRegistry.getConfig(ForgeRegistries.ITEMS.getKey(this));
+        artifactGearConfig = new ArtifactGearConfig(new ArrayList<>(), 20, 2, 0);
         ((ItemAccessor) this).setMaxDamage(artifactGearConfig.getDurability());
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         artifactGearConfig.getAttributes().forEach(attributeModifier -> {
-            Attribute attribute = ATTRIBUTES.getValue(attributeModifier.getAttributeResourceLocation());
+            Attribute attribute = attributeModifier.getAttribute();
             if (attribute != null) {
                 UUID uuid = randomUUID();
                 builder.put(attribute, new AttributeModifier(uuid, "Artifact modifier", attributeModifier.getAmount(), attributeModifier.getOperation()));
             }
         });
         this.defaultModifiers = builder.build();
-    }*/
+    }
 
     public void putArtifactOnCooldown(Player playerIn) {
         int cooldownInTicks = getCooldownInSeconds() * 20;
@@ -113,7 +119,7 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
     public abstract InteractionResult useArtifact(ArtifactUseContext context);
 
     public int getCooldownInSeconds() {
-        return 2; //artifactGearConfig.getCooldown();
+        return artifactGearConfig.getCooldown();
     }
 
 //    public int getDurationInSeconds() {
