@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-import static com.infamousmisadventures.infamousartifacts.Constants.MOD_ID;
+import static com.infamousmisadventures.infamousartifacts.IAConstants.MOD_ID;
 import static com.infamousmisadventures.infamousartifacts.util.ResourceLocationHelper.modLoc;
 
 public class ItemTagWrappers {

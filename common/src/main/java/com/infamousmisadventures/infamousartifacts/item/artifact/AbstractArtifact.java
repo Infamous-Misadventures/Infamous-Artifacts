@@ -25,7 +25,7 @@ import net.minecraft.world.phys.HitResult;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.infamousmisadventures.infamousartifacts.registry.AttributeInit.ARTIFACT_COOLDOWN_MULTIPLIER;
+import static com.infamousmisadventures.infamousartifacts.registry.IAAttributes.ARTIFACT_COOLDOWN_MULTIPLIER;
 import static com.infamousmisadventures.infamousartifacts.tag.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
 import static java.util.UUID.randomUUID;
 
@@ -47,9 +47,9 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
     public void reload() {
         //artifactGearConfig = ArtifactGearConfigRegistry.getConfig(ForgeRegistries.ITEMS.getKey(this));
         artifactGearConfig = new ArtifactGearConfig(new ArrayList<>(), 20, 2, 0);
-        ((ItemAccessor) this).setMaxDamage(artifactGearConfig.getDurability());
+        ((ItemAccessor) this).setMaxDamage(artifactGearConfig.durability());
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        artifactGearConfig.getAttributes().forEach(attributeModifier -> {
+        artifactGearConfig.attributes().forEach(attributeModifier -> {
             Attribute attribute = attributeModifier.getAttribute();
             if (attribute != null) {
                 UUID uuid = randomUUID();
@@ -119,7 +119,7 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
     public abstract InteractionResult useArtifact(ArtifactUseContext context);
 
     public int getCooldownInSeconds() {
-        return artifactGearConfig.getCooldown();
+        return artifactGearConfig.cooldown();
     }
 
 //    public int getDurationInSeconds() {

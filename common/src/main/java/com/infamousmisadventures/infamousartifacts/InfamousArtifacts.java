@@ -1,10 +1,10 @@
 package com.infamousmisadventures.infamousartifacts;
 
-import static com.infamousmisadventures.infamousartifacts.platform.Services.REGISTRY;
+import com.infamousmisadventures.infamousartifacts.platform.Services;
 
 public class InfamousArtifacts {
 
     public static void init() {
-        REGISTRY.init();
+        Services.REGISTRAR.setupRegistrar();
     }
 }

@@ -1,6 +1,6 @@
 package com.infamousmisadventures.infamousartifacts.datagen;
 
-import com.infamousmisadventures.infamousartifacts.Constants;
+import com.infamousmisadventures.infamousartifacts.IAConstants;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.JsonKeySortOrderCallback;
@@ -17,7 +17,7 @@ public class InfamousArtifactsDataGenFabric implements DataGeneratorEntrypoint {
     @Nullable
     @Override
     public String getEffectiveModId() {
-        return Constants.MOD_ID;
+        return IAConstants.MOD_ID;
     }
 
     @Override
