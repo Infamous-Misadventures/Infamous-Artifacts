@@ -3,6 +3,7 @@ package com.infamousmisadventures.infamousartifacts.platform.services;
 import com.infamousmisadventures.infamousartifacts.InfamousArtifacts;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
 
@@ -35,5 +36,5 @@ public interface IRegistrar {
      *
      * @param <T> The object type to register (e.g. {@link Item} or {@link Attribute}).
      */
-    <T> Supplier<T> registerObject(final String id, final Supplier<T> objSup, Registry<T> targetRegistry);
+    <T> Supplier<T> registerObject(final ResourceLocation id, final Supplier<T> objSup, Registry<T> targetRegistry);
 }

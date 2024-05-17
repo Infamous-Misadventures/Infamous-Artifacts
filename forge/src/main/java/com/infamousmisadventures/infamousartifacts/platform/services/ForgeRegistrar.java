@@ -6,6 +6,7 @@ import com.infamousmisadventures.infamousartifacts.registry.IAItems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,7 +26,7 @@ public class ForgeRegistrar implements IRegistrar {
     }
 
     @Override
-    public <T> RegistryObject<T> registerObject(String id, Supplier<T> objSup, Registry<T> targetRegistry) {
+    public <T> RegistryObject<T> registerObject(ResourceLocation id, Supplier<T> objSup, Registry<T> targetRegistry) {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus(); // Should not be null at the time this method is called
 
         ResourceKey<? extends Registry<T>> targetRegistryKey = targetRegistry.key();
@@ -35,7 +36,7 @@ public class ForgeRegistrar implements IRegistrar {
 
         DeferredRegister<T> existingDefReg = CACHED_REGISTRIES.putIfAbsent(targetRegistryKey, cachedDefReg);
 
-        return existingDefReg.register(id, objSup);
+        return existingDefReg.register(id.toString(), objSup);
     }
 
     public static ImmutableMap<ResourceKey, DeferredRegister> getCachedRegistries() {

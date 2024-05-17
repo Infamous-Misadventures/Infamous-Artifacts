@@ -10,10 +10,10 @@ import static com.infamousmisadventures.infamousartifacts.util.ResourceLocationH
 
 public class ItemTagWrappers {
 
-    public static final TagKey<Item> ARTIFACT_REPAIR_ITEMS = tag(modLoc("artifact_repair_items"));
+    public static final TagKey<Item> ARTIFACT_REPAIR_ITEMS = tag("artifact_repair_items");
 
     private static TagKey<Item> tag(String name) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation(MOD_ID, name));
+        return TagKey.create(Registries.ITEM, modLoc(name));
     }
 
     private static TagKey<Item> tag(ResourceLocation resourceLocation) {

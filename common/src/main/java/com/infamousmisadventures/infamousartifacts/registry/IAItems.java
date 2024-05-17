@@ -9,6 +9,8 @@ import net.minecraft.world.item.Item;
 
 import java.util.function.Supplier;
 
+import static com.infamousmisadventures.infamousartifacts.util.ResourceLocationHelper.modLoc;
+
 public class IAItems {
     private static final ObjectArrayList<Supplier<Item>> ITEMS = new ObjectArrayList<>();
     private static final Item.Properties ARTIFACT_PROPERTIES = new Item.Properties();
@@ -23,6 +25,6 @@ public class IAItems {
     }
 
     private static Supplier<Item> registerItem(String id, Supplier<Item> attribSup) {
-        return Services.REGISTRAR.registerObject(id, attribSup, BuiltInRegistries.ITEM);
+        return Services.REGISTRAR.registerObject(modLoc(id), attribSup, BuiltInRegistries.ITEM);
     }
 }

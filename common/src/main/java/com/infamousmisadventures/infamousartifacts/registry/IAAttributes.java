@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import java.util.function.Supplier;
 
 import static com.infamousmisadventures.infamousartifacts.IAConstants.MOD_ID;
+import static com.infamousmisadventures.infamousartifacts.util.ResourceLocationHelper.modLoc;
 
 public class IAAttributes {
     private static final ObjectArrayList<Supplier<Attribute>> ATTRIBUTES = new ObjectArrayList<>();
@@ -33,6 +34,6 @@ public class IAAttributes {
     }
 
     private static Supplier<Attribute> registerAttribute(String id, Supplier<Attribute> attribSup) {
-        return Services.REGISTRAR.registerObject(id, attribSup, BuiltInRegistries.ATTRIBUTE);
+        return Services.REGISTRAR.registerObject(modLoc(id), attribSup, BuiltInRegistries.ATTRIBUTE);
     }
 }
