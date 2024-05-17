@@ -30,13 +30,13 @@ public class ForgeRegistrar implements IRegistrar {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus(); // Should not be null at the time this method is called
 
         ResourceKey<? extends Registry<T>> targetRegistryKey = targetRegistry.key();
-        DeferredRegister<T> cachedDefReg = DeferredRegister.create(targetRegistryKey, MOD_ID);
 
-        cachedDefReg.register(modBus);
-
-        DeferredRegister<T> existingDefReg = CACHED_REGISTRIES.putIfAbsent(targetRegistryKey, cachedDefReg);
-
-        return existingDefReg.register(id.toString(), objSup);
+        DeferredRegister<T> existingDefReg = (DeferredRegister<T>) CACHED_REGISTRIES.computeIfAbsent(targetRegistryKey, k -> {
+            DeferredRegister<T> cachedDefReg = DeferredRegister.create(targetRegistryKey, MOD_ID);
+            cachedDefReg.register(modBus);
+            return cachedDefReg;
+        });
+        return existingDefReg.register(id.getPath(), objSup);
     }
 
     public static ImmutableMap<ResourceKey, DeferredRegister> getCachedRegistries() {
