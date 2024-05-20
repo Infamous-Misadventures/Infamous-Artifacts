@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.infamousmisadventures.infamousartifacts.registry.IAAttributes.ARTIFACT_COOLDOWN_MULTIPLIER;
-import static com.infamousmisadventures.infamousartifacts.tag.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
+import static com.infamousmisadventures.infamousartifacts.registry.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
 import static java.util.UUID.randomUUID;
 
 public abstract class AbstractArtifact extends Item { //implements IReloadableGear {

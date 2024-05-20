@@ -16,7 +16,6 @@ minecraft {
 dependencies {
     // Base
     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-
 }
 
 publishing {

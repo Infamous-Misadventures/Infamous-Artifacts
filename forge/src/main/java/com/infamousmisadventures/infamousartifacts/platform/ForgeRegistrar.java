@@ -1,6 +1,7 @@
-package com.infamousmisadventures.infamousartifacts.platform.services;
+package com.infamousmisadventures.infamousartifacts.platform;
 
 import com.google.common.collect.ImmutableMap;
+import com.infamousmisadventures.infamousartifacts.platform.services.IRegistrar;
 import com.infamousmisadventures.infamousartifacts.registry.IAAttributes;
 import com.infamousmisadventures.infamousartifacts.registry.IAItems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
@@ -26,17 +27,17 @@ public class ForgeRegistrar implements IRegistrar {
     }
 
     @Override
-    public <T> RegistryObject<T> registerObject(ResourceLocation id, Supplier<T> objSup, Registry<T> targetRegistry) {
+    public <T> RegistryObject<T> registerObject(ResourceLocation objId, Supplier<T> objSup, Registry<T> targetRegistry) {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus(); // Should not be null at the time this method is called
 
         ResourceKey<? extends Registry<T>> targetRegistryKey = targetRegistry.key();
 
-        DeferredRegister<T> existingDefReg = (DeferredRegister<T>) CACHED_REGISTRIES.computeIfAbsent(targetRegistryKey, k -> {
+        DeferredRegister<T> existingDefReg = (DeferredRegister<T>) CACHED_REGISTRIES.computeIfAbsent(targetRegistryKey, defReg -> {
             DeferredRegister<T> cachedDefReg = DeferredRegister.create(targetRegistryKey, MOD_ID);
             cachedDefReg.register(modBus);
             return cachedDefReg;
         });
-        return existingDefReg.register(id.getPath(), objSup);
+        return existingDefReg.register(objId.getPath(), objSup);
     }
 
     public static ImmutableMap<ResourceKey, DeferredRegister> getCachedRegistries() {

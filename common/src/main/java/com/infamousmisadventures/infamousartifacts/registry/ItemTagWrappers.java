@@ -1,4 +1,4 @@
-package com.infamousmisadventures.infamousartifacts.tag;
+package com.infamousmisadventures.infamousartifacts.registry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

@@ -1,5 +1,6 @@
-package com.infamousmisadventures.infamousartifacts.platform.services;
+package com.infamousmisadventures.infamousartifacts.platform;
 
+import com.infamousmisadventures.infamousartifacts.platform.services.IRegistrar;
 import com.infamousmisadventures.infamousartifacts.registry.IAAttributes;
 import com.infamousmisadventures.infamousartifacts.registry.IAItems;
 import net.minecraft.core.Registry;
@@ -16,8 +17,8 @@ public class FabricRegistrar implements IRegistrar {
     }
 
     @Override
-    public <T> Supplier<T> registerObject(ResourceLocation id, Supplier<T> objSup, Registry<T> targetRegistry) {
-        T targetObject = Registry.register(targetRegistry, id, objSup.get());
+    public <T> Supplier<T> registerObject(ResourceLocation objId, Supplier<T> objSup, Registry<T> targetRegistry) {
+        T targetObject = Registry.register(targetRegistry, objId, objSup.get());
         return () -> targetObject;
     }
 }

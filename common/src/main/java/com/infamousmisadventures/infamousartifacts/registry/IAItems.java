@@ -15,7 +15,7 @@ public class IAItems {
     private static final ObjectArrayList<Supplier<Item>> ITEMS = new ObjectArrayList<>();
     private static final Item.Properties ARTIFACT_PROPERTIES = new Item.Properties();
 
-    public static final Supplier<Item> DEATH_CAP_MUSHROOM  = registerItem("death_cap_mushroom", () -> new DeathCapMushroomItem(ARTIFACT_PROPERTIES));
+    public static final Supplier<Item> DEATH_CAP_MUSHROOM = registerItem("death_cap_mushroom", () -> new DeathCapMushroomItem(ARTIFACT_PROPERTIES));
 
     public static void register() {
     }
