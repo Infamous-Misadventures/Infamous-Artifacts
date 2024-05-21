@@ -1,6 +1,9 @@
 package com.infamousmisadventures.infamousartifacts.platform;
 
 import com.google.common.collect.ImmutableMap;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetted.TargettedComponentType;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.TargettingComponent;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.TargettingComponentType;
 import com.infamousmisadventures.infamousartifacts.platform.services.IRegistrar;
 import com.infamousmisadventures.infamousartifacts.registry.IAAttributes;
 import com.infamousmisadventures.infamousartifacts.registry.IAItems;
@@ -24,6 +27,8 @@ public class ForgeRegistrar implements IRegistrar {
     public void setupRegistrar() {
         IAAttributes.register(); //TODO Find a way to automate this goofy ahh classloading
         IAItems.register();
+        TargettingComponentType.init();
+        TargettedComponentType.init();
     }
 
     @Override
