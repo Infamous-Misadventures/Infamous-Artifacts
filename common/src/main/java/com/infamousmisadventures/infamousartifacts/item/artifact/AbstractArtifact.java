@@ -3,12 +3,16 @@ package com.infamousmisadventures.infamousartifacts.item.artifact;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.infamousmisadventures.infamousartifacts.item.artifact.config.ArtifactGearConfig;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.cost.CostComponent;
 import com.infamousmisadventures.infamousartifacts.mixins.ItemAccessor;
 import com.infamousmisadventures.infamousartifacts.mixins.UseOnContextAccessor;
+import com.infamousmisadventures.infamousartifacts.registry.ArtifactGearConfigRegistry;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -29,7 +33,7 @@ import static com.infamousmisadventures.infamousartifacts.registry.IAAttributes.
 import static com.infamousmisadventures.infamousartifacts.registry.ItemTagWrappers.ARTIFACT_REPAIR_ITEMS;
 import static java.util.UUID.randomUUID;
 
-public abstract class AbstractArtifact extends Item { //implements IReloadableGear {
+public class AbstractArtifact extends Item { //implements IReloadableGear {
     protected final UUID SLOT0_UUID = UUID.fromString("7037798e-ac2c-4711-aa72-ba73589f1411");
     protected final UUID SLOT1_UUID = UUID.fromString("1906bae9-9f26-4194-bb8a-ef95b8cad134");
     protected final UUID SLOT2_UUID = UUID.fromString("b99aa930-03d0-4b2d-aa69-7b5d943dd75c");
@@ -45,8 +49,8 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
 
     //@Override
     public void reload() {
-        //artifactGearConfig = ArtifactGearConfigRegistry.getConfig(ForgeRegistries.ITEMS.getKey(this));
-        artifactGearConfig = new ArtifactGearConfig(new ArrayList<>(), 20, 2, 0);
+        artifactGearConfig = ArtifactGearConfigRegistry.getConfig(BuiltInRegistries.ITEM.getKey(this));
+        //artifactGearConfig = new ArtifactGearConfig(new ArrayList<>(), 20, 2, new ArrayList<>(), new ArrayList<>());
         ((ItemAccessor) this).setMaxDamage(artifactGearConfig.durability());
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         artifactGearConfig.attributes().forEach(attributeModifier -> {
@@ -59,18 +63,15 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
         this.defaultModifiers = builder.build();
     }
 
-    public void putArtifactOnCooldown(Player playerIn) {
+    public void putArtifactOnCooldown(ArtifactUseContext artifactUseContext) {
         int cooldownInTicks = getCooldownInSeconds() * 20;
-
-        AttributeInstance artifactCooldownMultiplierAttribute = playerIn.getAttribute(ARTIFACT_COOLDOWN_MULTIPLIER.get());
-        double attributeModifier = artifactCooldownMultiplierAttribute != null ? artifactCooldownMultiplierAttribute.getValue() : 1.0D;
-        playerIn.getCooldowns().addCooldown(this, Math.max(0, (int) (cooldownInTicks * attributeModifier)));
+        LivingEntity livingEntity = artifactUseContext.artifactUser();
+        if(livingEntity instanceof Player playerIn) {
+            AttributeInstance artifactCooldownMultiplierAttribute = playerIn.getAttribute(ARTIFACT_COOLDOWN_MULTIPLIER.get());
+            double attributeModifier = artifactCooldownMultiplierAttribute != null ? artifactCooldownMultiplierAttribute.getValue() : 1.0D;
+            playerIn.getCooldowns().addCooldown(this, Math.max(0, (int) (cooldownInTicks * attributeModifier)));
+        }
     }
-
-    /*public static void triggerSynergy(Player player, ItemStack stack) {
-        ArtifactEvent.Activated event = new ArtifactEvent.Activated(player, stack);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
-    }*/
 
     public Rarity getRarity(ItemStack itemStack) {
         return Rarity.RARE;
@@ -83,7 +84,7 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
 
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
-        return useArtifactBase(new ArtifactUseContext(useOnContext.getLevel(), useOnContext.getPlayer(), useOnContext.getItemInHand(), ((UseOnContextAccessor) useOnContext).getHitResult()));
+        return useArtifactBase(new ArtifactUseContext(useOnContext.getLevel(), useOnContext.getPlayer(), ((UseOnContextAccessor) useOnContext).getHitResult(), useOnContext.getItemInHand()));
     }
 
     @Override
@@ -98,48 +99,77 @@ public abstract class AbstractArtifact extends Item { //implements IReloadableGe
             EntityHitResult entityHitResult = (EntityHitResult) hitResult;
             blockHitResult = new BlockHitResult(entityHitResult.getEntity().position(), Direction.UP, entityHitResult.getEntity().blockPosition(), false);
         }
-        InteractionResult interactionResult = useArtifactBase(new ArtifactUseContext(level, player, player.getItemInHand(interactionHand), blockHitResult));
+        InteractionResult interactionResult = useArtifactBase(new ArtifactUseContext(level, player, blockHitResult, player.getItemInHand(interactionHand)));
         return new InteractionResultHolder<>(interactionResult, interactionResult == InteractionResult.SUCCESS ? player.getItemInHand(interactionHand) : ItemStack.EMPTY);
     }
 
     private InteractionResult useArtifactBase(ArtifactUseContext artifactUseContext) {
-        if (artifactUseContext.getPlayer() != null) {
-            ItemStack itemStack = artifactUseContext.getItemStack();
-            if (artifactUseContext.getPlayer().getCooldowns().isOnCooldown(itemStack.getItem())) {
-                return InteractionResult.SUCCESS;
-            }
+        if(isOnCooldown(artifactUseContext) || !areCostsValid(artifactUseContext)) return InteractionResult.PASS;
+        for (CostComponent costComponent : artifactGearConfig.costComponentList()) {
+            costComponent.consume(artifactUseContext);
         }
         InteractionResult useResult = useArtifact(artifactUseContext);
         /*if (useResult.getResult().consumesAction() && artifactUseContext.getPlayer() != null && !artifactUseContext.getLevel().isClientSide) {
-            triggerSynergy(artifactUseContext.getPlayer(), artifactUseContext.getItemStack());
+            fireArtifactActivated(artifactUseContext.getPlayer(), artifactUseContext.getItemStack());
         }*/
+        //itemstack.hurtAndBreak(1, playerIn, (entity) -> NetworkHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new BreakItemMessage(entity.getId(), itemstack)));
+
+        putArtifactOnCooldown(artifactUseContext);
         return useResult;
     }
 
-    public abstract InteractionResult useArtifact(ArtifactUseContext context);
+    private boolean areCostsValid(ArtifactUseContext artifactUseContext) {
+        for (CostComponent costComponent : artifactGearConfig.costComponentList()) {
+            if (!costComponent.validate(artifactUseContext)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isOnCooldown(ArtifactUseContext artifactUseContext) {
+        if (artifactUseContext.artifactUser() != null) {
+            ItemStack itemStack = artifactUseContext.itemStack();
+            if (artifactUseContext.artifactUser() instanceof Player player && player.getCooldowns().isOnCooldown(itemStack.getItem())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public InteractionResult useArtifact(ArtifactUseContext context){
+        artifactGearConfig.targetingComponentList().forEach(targettingComponent -> {
+                targettingComponent.target(context);
+        });
+
+        return InteractionResult.SUCCESS;
+    }
 
     public int getCooldownInSeconds() {
         return artifactGearConfig.cooldown();
     }
 
-//    public int getDurationInSeconds() {
-//        return artifactGearConfig.getDuration();
-//    }
+    //Event Methods
+    /*public static void triggerSynergy(Player player, ItemStack stack) {
+        ArtifactEvent.Activated event = new ArtifactEvent.Activated(player, stack);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
+    }*/
 
-    /*public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(int slotIndex) {
+    //Attribute Methods
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(int slotIndex) {
         return getAttributeModifiersForSlot(getUUIDForSlot(slotIndex));
     }
 
     private ImmutableMultimap<Attribute, AttributeModifier> getAttributeModifiersForSlot(UUID slot_uuid) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        artifactGearConfig.getAttributes().forEach(attributeModifier -> {
-            Attribute attribute = ATTRIBUTES.getValue(attributeModifier.getAttributeResourceLocation());
+        artifactGearConfig.attributes().forEach(attributeModifier -> {
+            Attribute attribute = BuiltInRegistries.ATTRIBUTE.get(attributeModifier.getAttributeResourceLocation());
             if (attribute != null) {
                 builder.put(attribute, new AttributeModifier(slot_uuid, "Artifact modifier", attributeModifier.getAmount(), attributeModifier.getOperation()));
             }
         });
         return builder.build();
-    }*/
+    }
 
     protected UUID getUUIDForSlot(int slotIndex) {
         switch (slotIndex) {

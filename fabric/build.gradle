@@ -7,6 +7,10 @@ base {
     archivesName = "${mod_name}-${minecraft_version}-fabric"
 }
 
+repositories {
+    maven { url = "https://mvn.devos.one/snapshots/" }
+}
+
 dependencies {
     // Base
     minecraft("com.mojang:minecraft:${minecraft_version}")
@@ -17,10 +21,11 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
 
-    implementation project(":common")
 
     // Dependencies (Mandatory)
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+    implementation project(":common")
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:networking:${porting_lib_version}"))
 
     // Dependencies (Optional)
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${fabric_jei_version}")
@@ -34,12 +39,10 @@ dependencies {
 }
 
 loom {
-    splitEnvironmentSourceSets()
 
     mods {
         mod_id {
             sourceSet sourceSets.main
-            sourceSet sourceSets.client
         }
     }
 
