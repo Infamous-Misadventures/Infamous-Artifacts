@@ -1,3 +1,26 @@
 {
-  "cooldown": 600
+  "cooldown": 600,
+  "targetting_components": [
+    {
+      "type": "infamous_artifacts:self",
+      "effects": [
+        {
+          "type": "infamous_artifacts:apply_mob_effect",
+          "effects": [
+            "minecraft:haste"
+          ],
+          "duration": 180,
+          "amplifier": 3
+        },
+        {
+          "type": "infamous_artifacts:apply_mob_effect",
+          "effects": [
+            "minecraft:speed"
+          ],
+          "duration": 180,
+          "amplifier": 1
+        }
+      ]
+    }
+  ]
 }

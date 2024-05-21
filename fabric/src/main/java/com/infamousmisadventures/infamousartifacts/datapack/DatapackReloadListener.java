@@ -1,5 +1,6 @@
 package com.infamousmisadventures.infamousartifacts.datapack;
 
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.GearConfigReloadListener;
 import com.infamousmisadventures.infamousartifacts.registry.ArtifactGearConfigRegistry;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 
@@ -9,7 +10,8 @@ public class DatapackReloadListener {
 
     public static List<PreparableReloadListener> reloadListeners() {
         return List.of(
-                ArtifactGearConfigRegistry.ARTIFACT_GEAR_CONFIGS
+                ArtifactGearConfigRegistry.ARTIFACT_GEAR_CONFIGS,
+                new GearConfigReloadListener()
         );
     }
 }

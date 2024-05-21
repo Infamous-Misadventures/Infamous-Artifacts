@@ -7,5 +7,6 @@ public class InfamousArtifacts {
     public static void init() {
         Services.REGISTRAR.setupRegistrar();
         Services.REGISTRY_CREATOR.setupRegistryCreator();
+
     }
 }

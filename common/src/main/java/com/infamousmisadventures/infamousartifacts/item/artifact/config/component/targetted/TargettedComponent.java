@@ -5,9 +5,9 @@ import com.infamousmisadventures.infamousartifacts.registry.IARegistries;
 import com.mojang.serialization.Codec;
 import net.minecraft.world.entity.LivingEntity;
 
-public abstract class TargettedComponent {
+public interface TargettedComponent {
     public static final Codec<TargettedComponent> CODEC = IARegistries.TARGETTED_COMPONENT_TYPE.byNameCodec().dispatch(TargettedComponent::type, TargettedComponentType::codec);
-    protected abstract TargettedComponentType<?> type();
+    TargettedComponentType<?> type();
 
-    public abstract void apply(ArtifactUseContext context, LivingEntity entity);
+    void apply(ArtifactUseContext context, LivingEntity entity);
 }

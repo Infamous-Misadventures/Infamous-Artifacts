@@ -12,10 +12,10 @@ public class InfamousArtifactsFabric implements ModInitializer {
     public void onInitialize() {
         InfamousArtifacts.init();
         setupDatapackFormats();
+        NetworkHandler.init();
     }
 
     private void setupDatapackFormats() {
         CodecDataManagerSync.subscribeAsSyncable(NetworkHandler.INSTANCE, ArtifactGearConfigSyncPacket::new, ArtifactGearConfigRegistry.ARTIFACT_GEAR_CONFIGS);
-//        CodecDataManagerSync.subscribeAsSyncable(NetworkHandler.INSTANCE, DamageTypeModifierListSyncPacket::new, EnchantmentModifierRegistry.REGISTRY);
     }
 }

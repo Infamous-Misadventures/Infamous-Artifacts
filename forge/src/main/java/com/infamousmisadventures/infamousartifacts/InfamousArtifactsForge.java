@@ -19,6 +19,7 @@ public class InfamousArtifactsForge {
         InfamousArtifacts.init();
         setupDatapackFormats();
         setupEvents();
+        NetworkHandler.init();
     }
 
     private void setupDatapackFormats() {

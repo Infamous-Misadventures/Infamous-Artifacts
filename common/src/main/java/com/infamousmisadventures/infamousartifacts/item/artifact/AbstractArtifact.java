@@ -26,7 +26,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.infamousmisadventures.infamousartifacts.registry.IAAttributes.ARTIFACT_COOLDOWN_MULTIPLIER;
@@ -64,7 +63,7 @@ public class AbstractArtifact extends Item { //implements IReloadableGear {
     }
 
     public void putArtifactOnCooldown(ArtifactUseContext artifactUseContext) {
-        int cooldownInTicks = getCooldownInSeconds() * 20;
+        int cooldownInTicks = getCooldown();
         LivingEntity livingEntity = artifactUseContext.artifactUser();
         if(livingEntity instanceof Player playerIn) {
             AttributeInstance artifactCooldownMultiplierAttribute = playerIn.getAttribute(ARTIFACT_COOLDOWN_MULTIPLIER.get());
@@ -138,14 +137,14 @@ public class AbstractArtifact extends Item { //implements IReloadableGear {
     }
 
     public InteractionResult useArtifact(ArtifactUseContext context){
-        artifactGearConfig.targetingComponentList().forEach(targettingComponent -> {
+        artifactGearConfig.targettingComponentList().forEach(targettingComponent -> {
                 targettingComponent.target(context);
         });
 
         return InteractionResult.SUCCESS;
     }
 
-    public int getCooldownInSeconds() {
+    public int getCooldown() {
         return artifactGearConfig.cooldown();
     }
 

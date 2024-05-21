@@ -10,7 +10,7 @@ import java.util.List;
 
 public record ArtifactGearConfig(List<ConfigAttributeModifier> attributes, int cooldown, int durability,
                                  List<CostComponent> costComponentList,
-                                 List<TargettingComponent> targetingComponentList) {
+                                 List<TargettingComponent> targettingComponentList) {
 
     public static final ArtifactGearConfig DEFAULT = new ArtifactGearConfig(new ArrayList<>(), 20, 64, new ArrayList<>(), new ArrayList<>());
 
@@ -18,7 +18,7 @@ public record ArtifactGearConfig(List<ConfigAttributeModifier> attributes, int c
             ConfigAttributeModifier.CODEC.listOf().optionalFieldOf("attributes", new ArrayList<>()).forGetter(ArtifactGearConfig::attributes),
             Codec.INT.optionalFieldOf("cooldown", 20).forGetter(ArtifactGearConfig::cooldown),
             Codec.INT.optionalFieldOf("durability", 64).forGetter(ArtifactGearConfig::durability),
-            TargettingComponent.CODEC.listOf().optionalFieldOf("targettingComponents", new ArrayList<>()).forGetter(ArtifactGearConfig::targetingComponentList)
-    ).apply(instance, (attributes, cooldown, durability, targettingComponents) -> new ArtifactGearConfig(attributes, cooldown, durability, new ArrayList<>(), targettingComponents)));
+            TargettingComponent.CODEC.listOf().optionalFieldOf("targetting_components", new ArrayList<>()).forGetter(ArtifactGearConfig::targettingComponentList)
+    ).apply(instance, (attributes, cooldown, durability, targettingComponentList) -> new ArtifactGearConfig(attributes, cooldown, durability, new ArrayList<>(), targettingComponentList)));
 
 }

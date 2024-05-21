@@ -10,7 +10,7 @@ import java.util.List;
 public class SelfTargettingComponent extends TargettingComponent {
     public static Codec<SelfTargettingComponent> CODEC =
          RecordCodecBuilder.create(instance -> instance.group(
-                TargettedComponent.CODEC.listOf().fieldOf("effects").forGetter(comp -> ((SelfTargettingComponent) comp).effects())
+                TargettedComponent.CODEC.listOf().fieldOf("effects").forGetter(SelfTargettingComponent::effects)
         ).apply(instance, SelfTargettingComponent::new));
 
     private final List<TargettedComponent> effects;

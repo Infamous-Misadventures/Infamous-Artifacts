@@ -5,47 +5,36 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ApplyMobEffectTargettedComponent extends TargettedComponent{
+import java.util.List;
+import java.util.stream.Collectors;
+
+public record ApplyMobEffectTargettedComponent(List<ResourceLocation> effectLocations, int amplifier,
+                                               int duration) implements TargettedComponent {
     public static Codec<ApplyMobEffectTargettedComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            RegistryCodecs.homogeneousList(Registries.MOB_EFFECT).fieldOf("effects").forGetter(comp -> ((ApplyMobEffectTargettedComponent) comp).effects()),
-            Codec.INT.fieldOf("amplifier").forGetter(comp -> ((ApplyMobEffectTargettedComponent) comp).amplifier()),
-            Codec.INT.fieldOf("duration").forGetter(comp -> ((ApplyMobEffectTargettedComponent) comp).duration())
+            //RegistryCodecs.homogeneousList(Registries.MOB_EFFECT).fieldOf("effects").forGetter(comp -> ((ApplyMobEffectTargettedComponent) comp).effects()),
+            ResourceLocation.CODEC.listOf().fieldOf("effects").forGetter(ApplyMobEffectTargettedComponent::effectLocations),
+            Codec.INT.fieldOf("amplifier").forGetter(ApplyMobEffectTargettedComponent::amplifier),
+            Codec.INT.fieldOf("duration").forGetter(ApplyMobEffectTargettedComponent::duration)
     ).apply(instance, ApplyMobEffectTargettedComponent::new));
 
-    private final HolderSet<MobEffect> effects;
-    private final int amplifier;
-    private final int duration;
-
-    public ApplyMobEffectTargettedComponent(HolderSet<MobEffect> effects, int amplifier, int duration) {
-        this.effects = effects;
-        this.amplifier = amplifier;
-        this.duration = duration;
-    }
-
-    public HolderSet<MobEffect> effects() {
-        return effects;
-    }
-
-    public int amplifier() {
-        return amplifier;
-    }
-
-    public int duration() {
-        return duration;
+    private List<MobEffect> effects() {
+        return effectLocations.stream().map(BuiltInRegistries.MOB_EFFECT::get).collect(Collectors.toList());
     }
 
     @Override
-    protected TargettedComponentType<?> type() {
+    public TargettedComponentType<?> type() {
         return TargettedComponentType.APPLY_MOB_EFFECT;
     }
 
     @Override
     public void apply(ArtifactUseContext context, LivingEntity entity) {
-        effects.forEach(effect -> entity.addEffect(new MobEffectInstance(effect.value(), duration, amplifier)));
+        effects().forEach(effect -> entity.addEffect(new MobEffectInstance(effect, duration, amplifier)));
     }
 }
