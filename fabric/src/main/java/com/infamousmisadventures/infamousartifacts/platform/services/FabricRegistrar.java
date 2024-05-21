@@ -1,9 +1,6 @@
 package com.infamousmisadventures.infamousartifacts.platform.services;
 
-import com.infamousmisadventures.infamousartifacts.registry.IAAttributes;
-import com.infamousmisadventures.infamousartifacts.registry.IAItems;
-import com.infamousmisadventures.infamousartifacts.registry.IATargettedComponentTypes;
-import com.infamousmisadventures.infamousartifacts.registry.IATargettingComponentTypes;
+import com.infamousmisadventures.infamousartifacts.registry.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,6 +12,7 @@ public class FabricRegistrar implements IRegistrar {
     public void setupRegistrar() {
         IAAttributes.register();
         IAItems.register();
+        IACreativeTabs.register();
         IATargettingComponentTypes.register();
         IATargettedComponentTypes.register();
     }

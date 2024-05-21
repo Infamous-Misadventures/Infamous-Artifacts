@@ -1,10 +1,7 @@
 package com.infamousmisadventures.infamousartifacts.platform.services;
 
 import com.google.common.collect.ImmutableMap;
-import com.infamousmisadventures.infamousartifacts.registry.IAAttributes;
-import com.infamousmisadventures.infamousartifacts.registry.IAItems;
-import com.infamousmisadventures.infamousartifacts.registry.IATargettedComponentTypes;
-import com.infamousmisadventures.infamousartifacts.registry.IATargettingComponentTypes;
+import com.infamousmisadventures.infamousartifacts.registry.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -25,6 +22,7 @@ public class ForgeRegistrar implements IRegistrar {
     public void setupRegistrar() {
         IAAttributes.register(); //TODO Find a way to automate this goofy ahh classloading
         IAItems.register();
+        IACreativeTabs.register();
         IATargettingComponentTypes.register();
         IATargettedComponentTypes.register();
     }
