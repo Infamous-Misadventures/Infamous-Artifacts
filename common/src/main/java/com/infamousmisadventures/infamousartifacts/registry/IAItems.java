@@ -2,7 +2,6 @@ package com.infamousmisadventures.infamousartifacts.registry;
 
 import com.google.common.collect.ImmutableList;
 import com.infamousmisadventures.infamousartifacts.item.artifact.AbstractArtifact;
-import com.infamousmisadventures.infamousartifacts.item.artifact.DeathCapMushroomItem;
 import com.infamousmisadventures.infamousartifacts.platform.Services;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.registries.BuiltInRegistries;
