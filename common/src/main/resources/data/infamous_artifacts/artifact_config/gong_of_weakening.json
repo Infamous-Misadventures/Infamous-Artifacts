@@ -1,0 +1,28 @@
+{
+  "cooldown": 400,
+  "targetting_components": [
+    {
+      "type": "infamous_artifacts:area_self",
+        "radius": 5,
+      "targetting_type": "enemy",
+      "effects": [
+        {
+          "type": "infamous_artifacts:apply_mob_effect",
+          "effects": [
+            "minecraft:weakness"
+          ],
+          "duration": 140,
+          "amplifier": 1
+        },
+        {
+          "type": "infamous_artifacts:apply_mob_effect",
+          "effects": [
+            "minecraft:resistance"
+          ],
+          "duration": 140,
+          "amplifier": -2
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 package com.infamousmisadventures.infamousartifacts.registry;
 
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.AreaSelfTargettingComponent;
 import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.SelfTargettingComponent;
 import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.TargettingComponent;
 import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.TargettingComponentType;
@@ -10,6 +11,7 @@ import static com.infamousmisadventures.infamousartifacts.util.ResourceLocationH
 
 public class IATargettingComponentTypes {
     public static final TargettingComponentType<SelfTargettingComponent> SELF_TARGETTING_COMPONENT = register("self", SelfTargettingComponent.CODEC);
+    public static final TargettingComponentType<AreaSelfTargettingComponent> AREA_SELF_TARGETTING_COMPONENT = register("area_self", AreaSelfTargettingComponent.CODEC);
 
     private static <P extends TargettingComponent> TargettingComponentType<P> register(String pKey, Codec<P> pCodec) {
 

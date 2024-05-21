@@ -9,24 +9,14 @@ import java.util.List;
 
 import static com.infamousmisadventures.infamousartifacts.registry.IATargettingComponentTypes.SELF_TARGETTING_COMPONENT;
 
-public class SelfTargettingComponent extends TargettingComponent {
+public record SelfTargettingComponent(List<TargettedComponent> effects) implements TargettingComponent {
     public static Codec<SelfTargettingComponent> CODEC =
-         RecordCodecBuilder.create(instance -> instance.group(
-                TargettedComponent.CODEC.listOf().fieldOf("effects").forGetter(SelfTargettingComponent::effects)
-        ).apply(instance, SelfTargettingComponent::new));
-
-    private final List<TargettedComponent> effects;
-
-    public SelfTargettingComponent(List<TargettedComponent> effects) {
-        this.effects = effects;
-    }
-
-    public List<TargettedComponent> effects() {
-        return effects;
-    }
+            RecordCodecBuilder.create(instance -> instance.group(
+                    TargettedComponent.CODEC.listOf().fieldOf("effects").forGetter(SelfTargettingComponent::effects)
+            ).apply(instance, SelfTargettingComponent::new));
 
     @Override
-    protected TargettingComponentType<?> type() {
+    public TargettingComponentType<?> type() {
         return SELF_TARGETTING_COMPONENT;
     }
 

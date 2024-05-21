@@ -15,8 +15,9 @@ public class IAItems {
     private static final ObjectArrayList<Supplier<Item>> ARTIFACTS = new ObjectArrayList<>();
     private static final Item.Properties ARTIFACT_PROPERTIES = new Item.Properties();
 
-    public static final Supplier<Item> DEATH_CAP_MUSHROOM = registerArtifact("death_cap_mushroom", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
     public static final Supplier<Item> BOOTS_OF_SWIFTNESS = registerArtifact("boots_of_swiftness", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
+    public static final Supplier<Item> DEATH_CAP_MUSHROOM = registerArtifact("death_cap_mushroom", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
+    public static final Supplier<Item> GONG_OF_WEAKENING = registerArtifact("gong_of_weakening", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
 
     public static void register() {
     }
