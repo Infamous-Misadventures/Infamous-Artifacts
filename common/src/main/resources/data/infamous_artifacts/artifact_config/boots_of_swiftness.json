@@ -1,0 +1,18 @@
+{
+  "cooldown": 100,
+  "targetting_components": [
+    {
+      "type": "infamous_artifacts:self",
+      "effects": [
+        {
+          "type": "infamous_artifacts:apply_mob_effect",
+          "effects": [
+            "minecraft:speed"
+          ],
+          "duration": 40,
+          "amplifier": 2
+        }
+      ]
+    }
+  ]
+}
