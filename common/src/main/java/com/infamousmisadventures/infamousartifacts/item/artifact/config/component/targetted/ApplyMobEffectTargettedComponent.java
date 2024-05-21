@@ -15,6 +15,8 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.infamousmisadventures.infamousartifacts.registry.IATargettedComponentTypes.APPLY_MOB_EFFECT;
+
 public record ApplyMobEffectTargettedComponent(List<ResourceLocation> effectLocations, int amplifier,
                                                int duration) implements TargettedComponent {
     public static Codec<ApplyMobEffectTargettedComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -30,7 +32,7 @@ public record ApplyMobEffectTargettedComponent(List<ResourceLocation> effectLoca
 
     @Override
     public TargettedComponentType<?> type() {
-        return TargettedComponentType.APPLY_MOB_EFFECT;
+        return APPLY_MOB_EFFECT;
     }
 
     @Override

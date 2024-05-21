@@ -7,6 +7,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.List;
 
+import static com.infamousmisadventures.infamousartifacts.registry.IATargettingComponentTypes.SELF_TARGETTING_COMPONENT;
+
 public class SelfTargettingComponent extends TargettingComponent {
     public static Codec<SelfTargettingComponent> CODEC =
          RecordCodecBuilder.create(instance -> instance.group(
@@ -25,7 +27,7 @@ public class SelfTargettingComponent extends TargettingComponent {
 
     @Override
     protected TargettingComponentType<?> type() {
-        return TargettingComponentType.SELF_TARGETTING_COMPONENT;
+        return SELF_TARGETTING_COMPONENT;
     }
 
     @Override
