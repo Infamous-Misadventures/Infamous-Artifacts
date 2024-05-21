@@ -16,6 +16,6 @@ public class IATargettingComponentTypes {
         return Registry.register(IARegistries.TARGETTING_COMPONENT_TYPE, modLoc(pKey), new TargettingComponentType<>(pCodec));
     }
 
-    public static void init() {
+    public static void register() {
     }
 }

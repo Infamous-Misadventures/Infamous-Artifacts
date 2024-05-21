@@ -1,6 +1,5 @@
-package com.infamousmisadventures.infamousartifacts.platform;
+package com.infamousmisadventures.infamousartifacts.platform.services;
 
-import com.infamousmisadventures.infamousartifacts.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 

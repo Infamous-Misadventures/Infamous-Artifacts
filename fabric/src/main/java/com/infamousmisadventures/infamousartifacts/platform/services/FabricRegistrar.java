@@ -1,8 +1,5 @@
-package com.infamousmisadventures.infamousartifacts.platform;
+package com.infamousmisadventures.infamousartifacts.platform.services;
 
-import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetted.TargettedComponentType;
-import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting.TargettingComponentType;
-import com.infamousmisadventures.infamousartifacts.platform.services.IRegistrar;
 import com.infamousmisadventures.infamousartifacts.registry.IAAttributes;
 import com.infamousmisadventures.infamousartifacts.registry.IAItems;
 import com.infamousmisadventures.infamousartifacts.registry.IATargettedComponentTypes;
@@ -18,8 +15,8 @@ public class FabricRegistrar implements IRegistrar {
     public void setupRegistrar() {
         IAAttributes.register();
         IAItems.register();
-        IATargettingComponentTypes.init();
-        IATargettedComponentTypes.init();
+        IATargettingComponentTypes.register();
+        IATargettedComponentTypes.register();
     }
 
     @Override

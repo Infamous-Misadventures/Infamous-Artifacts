@@ -15,6 +15,6 @@ public class IATargettedComponentTypes {
         return (TargettedComponentType) Registry.register(IARegistries.TARGETTED_COMPONENT_TYPE, modLoc(key), new TargettedComponentType(codec));
     }
 
-    public static void init() {
+    public static void register() {
     }
 }

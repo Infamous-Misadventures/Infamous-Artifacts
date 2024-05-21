@@ -1,6 +1,5 @@
-package com.infamousmisadventures.infamousartifacts.platform;
+package com.infamousmisadventures.infamousartifacts.platform.services;
 
-import com.infamousmisadventures.infamousartifacts.platform.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricPlatformHelper implements IPlatformHelper {
