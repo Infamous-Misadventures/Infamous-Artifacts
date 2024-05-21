@@ -1,0 +1,21 @@
+{
+  "cooldown": 400,
+  "targetting_components": [
+    {
+      "type": "infamous_artifacts:area_self",
+        "radius": 5,
+      "targetting_type": "ally",
+      "affects_self": true,
+      "effects": [
+        {
+          "type": "infamous_artifacts:apply_mob_effect",
+          "effects": [
+            "minecraft:resistance"
+          ],
+          "duration": 140,
+          "amplifier": 1
+        }
+      ]
+    }
+  ]
+}

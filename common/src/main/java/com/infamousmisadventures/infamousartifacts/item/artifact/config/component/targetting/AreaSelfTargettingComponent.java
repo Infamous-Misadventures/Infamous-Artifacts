@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public record AreaSelfTargettingComponent(int radius, TargettingType targettingT
         return switch (targettingType) {
             case ENEMY -> MONSTER.equals(entity.getType().getCategory());
             case NEUTRAL -> !(entity instanceof Player) && !MONSTER.equals(entity.getType().getCategory());
-            case ALLY -> entity instanceof Player;
+            case ALLY -> entity instanceof Player || (entity instanceof TamableAnimal tamable && tamable.isTame());
             default -> true;
         };
     }

@@ -18,6 +18,7 @@ public class IAItems {
     public static final Supplier<Item> BOOTS_OF_SWIFTNESS = registerArtifact("boots_of_swiftness", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
     public static final Supplier<Item> DEATH_CAP_MUSHROOM = registerArtifact("death_cap_mushroom", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
     public static final Supplier<Item> GONG_OF_WEAKENING = registerArtifact("gong_of_weakening", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
+    public static final Supplier<Item> IRON_HIDE_AMULET = registerArtifact("iron_hide_amulet", () -> new AbstractArtifact(ARTIFACT_PROPERTIES));
 
     public static void register() {
     }
