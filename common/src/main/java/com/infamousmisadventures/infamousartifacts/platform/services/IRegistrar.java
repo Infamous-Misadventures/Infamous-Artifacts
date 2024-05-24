@@ -33,5 +33,5 @@ public interface IRegistrar {
      *
      * @param <T> The object type to register (e.g. {@link Item} or {@link Attribute}).
      */
-    <T> Supplier<T> registerObject(final ResourceLocation objId, final Supplier<T> objSup, Registry<T> targetRegistry);
+    <V, T extends V> Supplier<T> registerObject(final ResourceLocation objId, final Supplier<T> objSup, Registry<V> targetRegistry);
 }

@@ -28,13 +28,13 @@ public class ForgeRegistrar implements IRegistrar {
     }
 
     @Override
-    public <T> RegistryObject<T> registerObject(ResourceLocation objId, Supplier<T> objSup, Registry<T> targetRegistry) {
+    public <V, T extends V> RegistryObject<T> registerObject(ResourceLocation objId, Supplier<T> objSup, Registry<V> targetRegistry) {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus(); // Should not be null at the time this method is called
 
-        ResourceKey<? extends Registry<T>> targetRegistryKey = targetRegistry.key();
+        ResourceKey<? extends Registry<V>> targetRegistryKey = targetRegistry.key();
 
-        DeferredRegister<T> existingDefReg = (DeferredRegister<T>) CACHED_REGISTRIES.computeIfAbsent(targetRegistryKey, defReg -> {
-            DeferredRegister<T> cachedDefReg = DeferredRegister.create(targetRegistryKey, MOD_ID);
+        DeferredRegister<V> existingDefReg = (DeferredRegister<V>) CACHED_REGISTRIES.computeIfAbsent(targetRegistryKey, defReg -> {
+            DeferredRegister<V> cachedDefReg = DeferredRegister.create(targetRegistryKey, MOD_ID);
             cachedDefReg.register(modBus);
             return cachedDefReg;
         });

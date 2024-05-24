@@ -18,7 +18,7 @@ public class FabricRegistrar implements IRegistrar {
     }
 
     @Override
-    public <T> Supplier<T> registerObject(ResourceLocation objId, Supplier<T> objSup, Registry<T> targetRegistry) {
+    public <V, T extends V> Supplier<T> registerObject(ResourceLocation objId, Supplier<T> objSup, Registry<V> targetRegistry) {
         T targetObject = Registry.register(targetRegistry, objId, objSup.get());
         return () -> targetObject;
     }
