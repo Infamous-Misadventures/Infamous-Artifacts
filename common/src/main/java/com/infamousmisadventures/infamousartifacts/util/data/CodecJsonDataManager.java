@@ -28,6 +28,7 @@ package com.infamousmisadventures.infamousartifacts.util.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.infamousmisadventures.infamousartifacts.IAConstants;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
@@ -36,8 +37,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +54,6 @@ import java.util.Optional;
 public class CodecJsonDataManager<T> extends SimpleJsonResourceReloadListener implements CodecDataManager<T> {
     // default gson if unspecified
     private static final Gson STANDARD_GSON = new Gson();
-    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * The codec we use to convert jsonelements to Ts
@@ -112,7 +110,7 @@ public class CodecJsonDataManager<T> extends SimpleJsonResourceReloadListener im
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager resourceManager, ProfilerFiller profiler) {
-        LOGGER.info("Beginning loading of data for data loader: {}", this.folderName);
+        IAConstants.LOGGER.info("Beginning loading of data for data loader: {}", this.folderName);
         Map<ResourceLocation, T> newMap = new HashMap<>();
 
         for (Entry<ResourceLocation, JsonElement> entry : jsons.entrySet()) {
@@ -123,11 +121,11 @@ public class CodecJsonDataManager<T> extends SimpleJsonResourceReloadListener im
             this.codec.decode(JsonOps.INSTANCE, element)
                     .get()
                     .ifLeft(result -> newMap.put(key, result.getFirst()))
-                    .ifRight(partial -> LOGGER.error("Failed to parse data json for {} due to: {}", key, partial.message()));
+                    .ifRight(partial -> IAConstants.LOGGER.error("Failed to parse data json for {} due to: {}", key, partial.message()));
         }
 
         this.data = newMap;
-        LOGGER.info("Data loader for {} loaded {} jsons", this.folderName, this.data.size());
+        IAConstants.LOGGER.info("Data loader for {} loaded {} jsons", this.folderName, this.data.size());
     }
 
 

@@ -1,0 +1,16 @@
+{
+  "cooldown": 100,
+  "targetting_components": [
+    {
+      "type": "infamous_artifacts:self",
+      "effects": [
+        {
+          "type": "infamous_artifacts:spawn_item",
+          "items": [
+            "minecraft:dirt"
+          ]
+        }
+      ]
+    }
+  ]
+}

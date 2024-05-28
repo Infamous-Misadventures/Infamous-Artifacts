@@ -1,6 +1,8 @@
 package com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetting;
 
 import com.infamousmisadventures.infamousartifacts.item.artifact.ArtifactUseContext;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetted.BlockTargettedComponent;
+import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetted.EntityTargettedComponent;
 import com.infamousmisadventures.infamousartifacts.item.artifact.config.component.targetted.TargettedComponent;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -22,6 +24,14 @@ public record SelfTargettingComponent(List<TargettedComponent> effects) implemen
 
     @Override
     public void target(ArtifactUseContext context) {
-        effects.forEach(effect -> effect.apply(context, context.artifactUser()));
+        effects.forEach(effect -> applyEffect(context, effect));
+    }
+
+    private void applyEffect(ArtifactUseContext context, TargettedComponent effect) {
+        if(effect instanceof EntityTargettedComponent entityTargettedEffect){
+            entityTargettedEffect.apply(context, context.artifactUser());
+        }else if(effect instanceof BlockTargettedComponent blockTargettedEffect){
+            blockTargettedEffect.apply(context, context.artifactUser().blockPosition());
+        }
     }
 }

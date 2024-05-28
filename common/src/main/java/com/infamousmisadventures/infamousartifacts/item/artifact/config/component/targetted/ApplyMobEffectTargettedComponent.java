@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static com.infamousmisadventures.infamousartifacts.registry.IATargettedComponentTypes.APPLY_MOB_EFFECT;
 
 public record ApplyMobEffectTargettedComponent(List<ResourceLocation> effectLocations, int amplifier,
-                                               int duration) implements TargettedComponent {
+                                               int duration) implements EntityTargettedComponent {
     public static Codec<ApplyMobEffectTargettedComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             //RegistryCodecs.homogeneousList(Registries.MOB_EFFECT).fieldOf("effects").forGetter(comp -> ((ApplyMobEffectTargettedComponent) comp).effects()),
             ResourceLocation.CODEC.listOf().fieldOf("effects").forGetter(ApplyMobEffectTargettedComponent::effectLocations),

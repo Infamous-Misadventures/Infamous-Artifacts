@@ -8,6 +8,4 @@ import net.minecraft.world.entity.LivingEntity;
 public interface TargettedComponent {
     public static final Codec<TargettedComponent> CODEC = IARegistries.TARGETTED_COMPONENT_TYPE.byNameCodec().dispatch(TargettedComponent::type, TargettedComponentType::codec);
     TargettedComponentType<?> type();
-
-    void apply(ArtifactUseContext context, LivingEntity entity);
 }
