@@ -1,10 +1,10 @@
 package com.infamousmisadventures.infamousartifacts;
 
 import com.infamousmisadventures.infamousartifacts.datapack.CodecDataManagerSync;
-import com.infamousmisadventures.infamousartifacts.platform.services.FabricNetworkHandler;
-import com.infamousmisadventures.infamousartifacts.network.message.ArtifactGearConfigSyncPacket;
-import com.infamousmisadventures.infamousartifacts.registry.ArtifactGearConfigRegistry;
+import com.infamousmisadventures.infamousartifacts.network.packets.ArtifactGearConfigSyncPacket;
 import net.fabricmc.api.ModInitializer;
+
+import static com.infamousmisadventures.infamousartifacts.registry.ArtifactGearConfigRegistry.ARTIFACT_GEAR_CONFIGS;
 
 public class InfamousArtifactsFabric implements ModInitializer {
     
@@ -15,6 +15,6 @@ public class InfamousArtifactsFabric implements ModInitializer {
     }
 
     private void setupDatapackFormats() {
-        CodecDataManagerSync.subscribeAsSyncable(FabricNetworkHandler.INSTANCE, ArtifactGearConfigSyncPacket::new, ArtifactGearConfigRegistry.ARTIFACT_GEAR_CONFIGS);
+        CodecDataManagerSync.subscribeAsSyncable(ArtifactGearConfigSyncPacket::new, ARTIFACT_GEAR_CONFIGS);
     }
 }

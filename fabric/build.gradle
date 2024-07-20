@@ -25,7 +25,6 @@ dependencies {
     // Dependencies (Mandatory)
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
     implementation project(":common")
-    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:networking:${porting_lib_version}"))
 
     // Dependencies (Optional)
     modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${fabric_jei_version}")

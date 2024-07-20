@@ -1,53 +1,22 @@
 package com.infamousmisadventures.infamousartifacts.platform.services;
 
-import com.infamousmisadventures.infamousartifacts.network.message.ArtifactGearConfigSyncPacket;
-import com.infamousmisadventures.infamousartifacts.network.message.ScrollWindowUpdatePacketForge;
-import com.infamousmisadventures.infamousartifacts.network.packets.ScrollWindowUpdatePacket;
-import com.infamousmisadventures.infamousartifacts.network.packets.base.ILoaderAgnosticPacket;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
-
-import static com.infamousmisadventures.infamousartifacts.IAConstants.MOD_ID;
+import com.infamousmisadventures.infamousartifacts.network.packets.RegisterPackets;
+import commonnetwork.api.Network;
+import net.minecraft.server.level.ServerPlayer;
 
 public class ForgeNetworkHandler implements INetworkHandler {
-    public static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder.named(
-                    new ResourceLocation(MOD_ID, "network"))
-            .clientAcceptedVersions("1"::equals)
-            .serverAcceptedVersions("1"::equals)
-            .networkProtocolVersion(() -> "1")
-            .simpleChannel();
-
-    protected static int PACKET_COUNTER = 0;
-
     @Override
     public void setupNetworkHandler() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-    }
-
-    private void setup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(this::registerPackets);
-    }
-
-    private void registerPackets() {
-        INSTANCE.messageBuilder(ArtifactGearConfigSyncPacket.class, incrementAndGetPacketCounter())
-                .encoder(ArtifactGearConfigSyncPacket::encode).decoder(ArtifactGearConfigSyncPacket::decode)
-                .consumerMainThread(ArtifactGearConfigSyncPacket::onPacketReceived)
-                .add();
-        INSTANCE.messageBuilder(ScrollWindowUpdatePacket.class, incrementAndGetPacketCounter())
-                .encoder(ScrollWindowUpdatePacketForge::encode).decoder(ScrollWindowUpdatePacketForge::decode)
-                .consumerMainThread(ScrollWindowUpdatePacketForge::onPacketReceived)
-                .add();
-    }
-
-    public static int incrementAndGetPacketCounter() {
-        return PACKET_COUNTER++;
+        RegisterPackets.registerPackets();
     }
 
     @Override
-    public <MSG extends ILoaderAgnosticPacket> void sendToServer(MSG packet) {
-        INSTANCE.sendToServer(packet);
+    public <MSG> void sendToServer(MSG packet) {
+        Network.getNetworkHandler().sendToServer(packet);
+    }
+
+    @Override
+    public <MSG> void sendToClient(MSG packet, ServerPlayer player) {
+        Network.getNetworkHandler().sendToClient(packet, player);
     }
 }

@@ -25,10 +25,6 @@ public class ScrollWindowUpdatePacket {
         return newScrollIndex;
     }
 
-    public static ScrollWindowUpdatePacket decode(FriendlyByteBuf buffer) {
-        return new ScrollWindowUpdatePacket(buffer);
-    }
-
     public void encode(FriendlyByteBuf buffer) {
         buffer.writeInt(newScrollIndex);
     }
