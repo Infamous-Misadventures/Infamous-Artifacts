@@ -36,6 +36,7 @@ dependencies {
     modCompileOnly("squeek.appleskin:appleskin-fabric:${fabric_appleskin_version}:api") { transitive = false }
 
     modImplementation("com.terraformersmc:modmenu:${fabric_modmenu_version}")
+    modImplementation "mysticdrew:common-networking-fabric:${common_networking_version}"
 }
 
 loom {

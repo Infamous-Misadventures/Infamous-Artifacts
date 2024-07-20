@@ -79,6 +79,9 @@ subprojects {
             name = "TerraformersMC Maven"
             url = "https://maven.terraformersmc.com/releases"
         }
+        maven {
+            url = "https://jm.gserv.me/repository/maven-public/"
+        }
     }
 
     tasks.withType(JavaCompile).configureEach {

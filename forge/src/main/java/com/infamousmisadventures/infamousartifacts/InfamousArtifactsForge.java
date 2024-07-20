@@ -2,10 +2,11 @@ package com.infamousmisadventures.infamousartifacts;
 
 import com.infamousmisadventures.infamousartifacts.datapack.CodecDataManagerSync;
 import com.infamousmisadventures.infamousartifacts.datapack.DatapackReloadListener;
-import com.infamousmisadventures.infamousartifacts.platform.services.ForgeNetworkHandler;
 import com.infamousmisadventures.infamousartifacts.network.message.ArtifactGearConfigSyncPacket;
+import com.infamousmisadventures.infamousartifacts.platform.services.ForgeNetworkHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -18,6 +19,7 @@ public class InfamousArtifactsForge {
         InfamousArtifacts.init();
         setupDatapackFormats();
         setupEvents();
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
     }
 
     private void setupDatapackFormats() {
@@ -26,5 +28,9 @@ public class InfamousArtifactsForge {
 
     public void setupEvents() {
         MinecraftForge.EVENT_BUS.addListener(DatapackReloadListener::onAddReloadListeners);
+    }
+
+    private void setupClient(final FMLClientSetupEvent event) {
+        event.enqueueWork(InfamousArtifactsForgeClient::setupClient);
     }
 }

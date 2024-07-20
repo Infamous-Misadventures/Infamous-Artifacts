@@ -22,6 +22,8 @@ public class ForgeRegistrar implements IRegistrar {
     public void setupRegistrar() {
         IAAttributes.register(); //TODO Find a way to automate this goofy ahh classloading
         IAItems.register();
+        IABlocks.register();
+        IAMenuTypes.register();
         IACreativeTabs.register();
         IATargettingComponentTypes.register();
         IATargettedComponentTypes.register();

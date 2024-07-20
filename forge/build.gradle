@@ -104,6 +104,8 @@ dependencies {
 
     compileOnly fg.deobf("squeek.appleskin:appleskin-forge:${forge_appleskin_version}:api")
     runtimeOnly fg.deobf("squeek.appleskin:appleskin-forge:${forge_appleskin_version}")
+
+    implementation fg.deobf("mysticdrew:common-networking-forge:${common_networking_version}")
 }
 
 tasks.withType(JavaCompile).configureEach { source(project(":common").sourceSets.main.allSource) }

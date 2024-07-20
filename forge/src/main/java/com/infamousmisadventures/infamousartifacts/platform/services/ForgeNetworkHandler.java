@@ -1,6 +1,9 @@
 package com.infamousmisadventures.infamousartifacts.platform.services;
 
 import com.infamousmisadventures.infamousartifacts.network.message.ArtifactGearConfigSyncPacket;
+import com.infamousmisadventures.infamousartifacts.network.message.ScrollWindowUpdatePacketForge;
+import com.infamousmisadventures.infamousartifacts.network.packets.ScrollWindowUpdatePacket;
+import com.infamousmisadventures.infamousartifacts.network.packets.base.ILoaderAgnosticPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -33,9 +36,18 @@ public class ForgeNetworkHandler implements INetworkHandler {
                 .encoder(ArtifactGearConfigSyncPacket::encode).decoder(ArtifactGearConfigSyncPacket::decode)
                 .consumerMainThread(ArtifactGearConfigSyncPacket::onPacketReceived)
                 .add();
+        INSTANCE.messageBuilder(ScrollWindowUpdatePacket.class, incrementAndGetPacketCounter())
+                .encoder(ScrollWindowUpdatePacketForge::encode).decoder(ScrollWindowUpdatePacketForge::decode)
+                .consumerMainThread(ScrollWindowUpdatePacketForge::onPacketReceived)
+                .add();
     }
 
     public static int incrementAndGetPacketCounter() {
         return PACKET_COUNTER++;
+    }
+
+    @Override
+    public <MSG extends ILoaderAgnosticPacket> void sendToServer(MSG packet) {
+        INSTANCE.sendToServer(packet);
     }
 }

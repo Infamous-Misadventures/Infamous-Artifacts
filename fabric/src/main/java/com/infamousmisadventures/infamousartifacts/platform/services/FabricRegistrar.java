@@ -12,6 +12,8 @@ public class FabricRegistrar implements IRegistrar {
     public void setupRegistrar() {
         IAAttributes.register();
         IAItems.register();
+        IABlocks.register();
+        IAMenuTypes.register();
         IACreativeTabs.register();
         IATargettingComponentTypes.register();
         IATargettedComponentTypes.register();
